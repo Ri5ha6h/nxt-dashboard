@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { CgSpinnerAlt } from "react-icons/cg";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -49,13 +50,24 @@ const SignUpPage = () => {
   });
 
   const [btnLoad, setBtnLoad] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
 
   const onSubmit = async (data: any) => {
-    setBtnLoad(true);
-    setTimeout(() => {
-      console.log(data);
+    try {
+      setBtnLoad(true);
+      const response = await axios.post("/api/users/signup", data);
+      console.log("Sign up success", response.data);
+      router.push("/signin");
+    } catch (error: any) {
+      console.error("Sign up failed", error.message);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+      });
+    } finally {
       setBtnLoad(false);
-    }, 2000);
+    }
   };
 
   return (
