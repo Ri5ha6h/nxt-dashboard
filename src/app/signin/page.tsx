@@ -54,10 +54,11 @@ const SignInPage = () => {
       });
       router.push("/dashboard");
     } catch (error: any) {
-      console.error("Something wrong, Login Failed", error.message);
+      console.error("Something went wrong, Sign in Failed", error.message);
       toast({
-        title: "Uh oh! Something went wrong.",
+        title: "Uh oh! Something went wrong, Sign in Failed.",
         description: error.message,
+        variant: 'destructive'
       });
     } finally {
       setBtnLoad(false);

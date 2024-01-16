@@ -58,12 +58,16 @@ const SignUpPage = () => {
       setBtnLoad(true);
       const response = await axios.post("/api/users/signup", data);
       console.log("Sign up success", response.data);
+      toast({
+        description: "Sign up Successful.",
+      });
       router.push("/signin");
     } catch (error: any) {
-      console.error("Sign up failed", error.message);
+      console.error("Something went wrong, Sign up failed", error.message);
       toast({
-        title: "Uh oh! Something went wrong.",
+        title: "Uh oh! Something went wrong, Sign up failed.",
         description: error.message,
+        variant: 'destructive'
       });
     } finally {
       setBtnLoad(false);

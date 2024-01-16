@@ -3,6 +3,10 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
+import Header from "@/src/customComponents/header";
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +20,36 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  const cookieStore = cookies();
+  const getToken = cookieStore.get('token')?.value || "";
+
+  // const someFunc = async (request: NextRequest) => {
+  //   return NextResponse.redirect(new URL('/signin', request.nextUrl));
+  // }
+
+  // const BeforeSignIn = () => (
+  //   <html lang="en">
+  //     <body className={cn("h-screen")}>
+  //       <div className="flex flex-col justify-center items-center h-full">
+  //         <main className="flex-1 flex flex-col items-center justify-between p-24">{children}</main>
+  //       </div>
+  //       <Toaster/>
+  //     </body>
+  //   </html>
+  // )
+
+  // if(!getToken){
+  //   return <BeforeSignIn />
+  // }
+
   return (
     <html lang="en">
       <body className={cn("h-screen")}>
-        <div className="flex justify-center items-center h-full">{children}</div>
+        <div className="flex flex-col justify-center items-center h-full">
+          {getToken ? <Header /> : <></>}
+          <main className={cn("flex flex-col items-center justify-between p-24 ", getToken ? "flex-1 " : "")}>{children}</main>
+        </div>
         <Toaster/>
       </body>
     </html>
