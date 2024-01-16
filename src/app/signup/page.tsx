@@ -147,7 +147,7 @@ const SignUpPage = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">
+            <Button type="submit" disabled={btnLoad ? true : false}>
               {btnLoad ? (
                 <>
                   <CgSpinnerAlt className="animate-spin text-lg mr-1" /> Sign Up

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -18,6 +18,8 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { CgSpinnerAlt } from "react-icons/cg";
 
 const formSchema = z.object({
   email: z.string().min(1, { message: "This field has to be filled." })
@@ -38,7 +40,29 @@ const SignInPage = () => {
     },
   });
 
-  const onSubmit = async () => {};
+  const router = useRouter();
+  const [btnLoad, setBtnLoad] = useState(false);
+  const { toast } = useToast();
+
+  const onSubmit = async (data: any) => {
+    try {
+      setBtnLoad(true);
+      const response = await axios.post("/api/users/signin", data);
+      console.log("Sign in success", response.data);
+      toast({
+        description: "Sign in Successful.",
+      });
+      router.push("/dashboard");
+    } catch (error: any) {
+      console.error("Something wrong, Login Failed", error.message);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: error.message,
+      });
+    } finally {
+      setBtnLoad(false);
+    }
+  };
 
   return (
     <>
@@ -80,7 +104,15 @@ const SignInPage = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Sign In</Button>
+            <Button type="submit" disabled={btnLoad ? true : false}>
+              {btnLoad ? (
+                <>
+                  <CgSpinnerAlt className="animate-spin text-lg mr-1" /> Sign In
+                </>
+              ) : (
+                "Sign In"
+              )}
+            </Button>
             <p>
               Doesn&apos;t have an account ? <span className={cn("underline text-blue-600")}><Link href={"/signup"}>SignUp</Link></span>
             </p>
