@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
-import CustomLayout from "../customComponents/custLayout";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Next Auth",
@@ -17,18 +13,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="en">
       <body className={cn("h-screen")}>
         <div className="flex flex-col justify-center items-center h-full">
-          {/* {getToken ? <Header /> : <></>}
-          <main className={cn("flex flex-col items-center justify-between p-24 ", getToken ? "flex-1 " : "")}>{children}</main> */}
-          <CustomLayout>
-            {children}
-          </CustomLayout>
+          {children}
         </div>
-        <Toaster/>
+        <Toaster />
       </body>
     </html>
   );

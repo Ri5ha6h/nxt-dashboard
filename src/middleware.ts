@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // public paths
-    const isPublic = (path === '/signin') || (path === '/signup')
+  const isPublic = (path === '/signin') || (path === '/signup')
   // get token
   const token = request.cookies.get("token")?.value || "";
 
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/',
-    '/dashboard',
+    '/dashboard:path*',
     '/signin',
     '/signup'
   ]

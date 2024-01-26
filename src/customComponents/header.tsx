@@ -1,15 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { CgSpinnerAlt } from "react-icons/cg";
+import { useUser } from "../hooks/getUser";
 
-const Header = ({ username, btnLoad, setBtnLoad }: any) => {
+const Header = () => {
+  const [btnLoad, setBtnLoad] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const user = useUser();
 
   const signOut = async () => {
     try {
@@ -32,9 +35,8 @@ const Header = ({ username, btnLoad, setBtnLoad }: any) => {
   };
 
   return (
-    <div className="h-[50px] bg-blue-300 w-full flex justify-around items-center">
-      <p>Hi{username !== "" ? `, ${username}` : ""}</p>
-      {/* <Button variant={'destructive'} onClick={signOut}>Logout</Button> */}
+    <div className="bg-blue-300 w-full flex justify-around items-center">
+      <p>Hi, {user}</p>
       <Button
         variant={"destructive"}
         onClick={signOut}
